@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lector de ruso</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/reader.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Lector de ruso</h1>
+    <p class="voice">Aleksandr HQ · RHVoice Lab</p>
+    <form id="reader-form">
+      <label for="source">Texto en ruso</label>
+      <textarea id="source" lang="ru" rows="6" required spellcheck="false" placeholder="Вставьте текст сюда…"></textarea>
+      <div class="actions">
+        <button type="submit">Leer texto</button>
+        <button type="button" id="stop" disabled>Detener</button>
+      </div>
+    </form>
+    <p id="status" role="status"></p>
+    <section id="reading" aria-labelledby="reading-title" hidden>
+      <h2 id="reading-title">Texto de lectura</h2>
+      <p id="instructions">Haz clic en una palabra para oírla. Para oír un fragmento, selecciónalo y pulsa «Leer selección».</p>
+      <button type="button" id="repeat" disabled>Leer selección</button>
+      <div id="passage" lang="ru" aria-describedby="instructions"></div>
+    </section>
+  </main>
+</body>
+</html>

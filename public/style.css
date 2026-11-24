@@ -1,0 +1,53 @@
+:root {
+  font: 100%/1.5 system-ui, sans-serif;
+  color: #20252c;
+  background: #f5f7fa;
+}
+body { margin: 0; }
+main {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 5vw, 3rem);
+}
+h1 { margin: 0; font-size: 2rem; }
+h2 { margin: 0; font-size: 1.25rem; }
+.voice { margin: .25rem 0 1.75rem; color: #4e5969; }
+label { display: block; margin-bottom: .4rem; font-weight: 600; }
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  resize: vertical;
+  padding: .75rem;
+  border: 1px solid #828c9b;
+  border-radius: .4rem;
+  background: white;
+  color: inherit;
+  font: inherit;
+}
+.actions { display: flex; gap: .5rem; margin-top: .75rem; }
+button {
+  padding: .5rem .75rem;
+  border: 1px solid #828c9b;
+  border-radius: .4rem;
+  background: white;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+button[type="submit"] { background: #214d90; border-color: #214d90; color: white; }
+button:disabled { opacity: .58; cursor: default; }
+:focus-visible { outline: 2px solid #214d90; outline-offset: 2px; }
+#status { min-height: 1.5em; }
+#instructions { color: #4e5969; margin: .4rem 0 .75rem; }
+#passage {
+  margin-top: .75rem;
+  padding: 1rem;
+  border-radius: .4rem;
+  background: white;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 1.25rem;
+  line-height: 1.8;
+}
+.word { cursor: pointer; border-radius: .15rem; }
+.word:hover, .word[aria-current="true"] { background: #dbe9ff; }
