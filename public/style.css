@@ -24,6 +24,16 @@ textarea {
   color: inherit;
   font: inherit;
 }
+#punctuation-hint { color: #4e5969; margin: .25rem 0 .75rem; }
+.voice-controls { display: flex; flex-wrap: wrap; gap: .75rem; }
+select {
+  padding: .4rem .75rem;
+  border: 1px solid #828c9b;
+  border-radius: .4rem;
+  background: white;
+  color: inherit;
+  font: inherit;
+}
 .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
 button {
   padding: .5rem .75rem;

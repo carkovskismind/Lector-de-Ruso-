@@ -1,5 +1,7 @@
 const form = document.querySelector("#reader-form");
 const source = document.querySelector("#source");
+const rate = document.querySelector("#rate");
+const pitch = document.querySelector("#pitch");
 const stop = document.querySelector("#stop");
 const status = document.querySelector("#status");
 const reading = document.querySelector("#reading");
@@ -62,7 +64,8 @@ async function speak(text, { word, endpoint = "/api/speech" } = {}) {
   }
 
   try {
-    const response = await fetch(endpoint, {
+    const settings = new URLSearchParams({ rate: rate.value, pitch: pitch.value });
+    const response = await fetch(`${endpoint}?${settings}`, {
       method: "POST",
       headers: { "Content-Type": "text/plain; charset=utf-8" },
       body: text,

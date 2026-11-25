@@ -13,7 +13,30 @@
     <p class="voice">Aleksandr HQ · RHVoice Lab</p>
     <form id="reader-form">
       <label for="source">Texto en ruso</label>
-      <textarea id="source" lang="ru" rows="6" required spellcheck="false" placeholder="Вставьте текст сюда…"></textarea>
+      <textarea id="source" aria-describedby="punctuation-hint" lang="ru" rows="6" required spellcheck="false" placeholder="Вставьте текст сюда…"></textarea>
+      <p id="punctuation-hint">Usa comas para pausas breves, puntos para separar frases y signos de interrogación para marcar preguntas.</p>
+      <div class="voice-controls">
+        <div>
+          <label for="rate">Velocidad</label>
+          <select id="rate">
+            <option value="75">Lenta</option>
+            <option value="90">Pausada</option>
+            <option value="100" selected>Normal</option>
+            <option value="115">Rápida</option>
+            <option value="130">Muy rápida</option>
+          </select>
+        </div>
+        <div>
+          <label for="pitch">Tono</label>
+          <select id="pitch">
+            <option value="85">Muy grave</option>
+            <option value="95">Grave</option>
+            <option value="100" selected>Normal</option>
+            <option value="105">Agudo</option>
+            <option value="115">Muy agudo</option>
+          </select>
+        </div>
+      </div>
       <div class="actions">
         <button type="submit">Leer texto</button>
         <button type="button" id="poem">Leer el poema</button>

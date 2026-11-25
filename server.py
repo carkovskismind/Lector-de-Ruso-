@@ -8,6 +8,7 @@ import wave
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import BoundedSemaphore
+from urllib.parse import parse_qs
 
 PUBLIC = Path(__file__).resolve().parent / "public"
 STATIC = {
@@ -44,12 +45,16 @@ def synthesize(text, output, options=()):
     return audio
 
 
-def synthesize_poem(stanzas, output):
+def synthesize_poem(stanzas, output, rate, pitch):
     audio = io.BytesIO()
     with wave.open(audio, "wb") as recording:
         for index, (stanza, prosody) in enumerate(zip(stanzas, POEM_PROSODY, strict=True)):
-            rate, pitch, volume = map(str, prosody)
-            options = ("-r", rate, "-t", pitch, "-v", volume)
+            stanza_rate, stanza_pitch, volume = prosody
+            options = (
+                "-r", str(round(stanza_rate * rate / 100)),
+                "-t", str(round(stanza_pitch * pitch / 100)),
+                "-v", str(volume),
+            )
             stanza_audio = synthesize(stanza.encode("utf-8"), output.with_name(f"stanza-{index}.wav"), options)
             with wave.open(io.BytesIO(stanza_audio)) as section:
                 if index == 0:
@@ -89,8 +94,9 @@ class ReaderHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self.close_connection = True
-        expressive = self.path == "/api/poem"
-        if not expressive and self.path != "/api/speech":
+        path, _, query = self.path.partition("?")
+        expressive = path == "/api/poem"
+        if not expressive and path != "/api/speech":
             self.message(404, "Página no encontrada.")
             return
         if self.headers.get_content_type() != "text/plain":
@@ -105,6 +111,15 @@ class ReaderHandler(BaseHTTPRequestHandler):
             return
         if length > MAX_TEXT_BYTES:
             self.message(413, "El texto es demasiado largo. Léelo en partes.")
+            return
+        try:
+            params = parse_qs(query, keep_blank_values=True)
+            rate = int(params.get("rate", ["100"])[0])
+            pitch = int(params.get("pitch", ["100"])[0])
+            if not (75 <= rate <= 130 and 85 <= pitch <= 115):
+                raise ValueError
+        except ValueError:
+            self.message(400, "Elige una velocidad y un tono válidos.")
             return
         raw_text = self.rfile.read(length)
         try:
@@ -128,7 +143,10 @@ class ReaderHandler(BaseHTTPRequestHandler):
         try:
             with tempfile.TemporaryDirectory() as directory:
                 output = Path(directory) / "speech.wav"
-                audio = synthesize_poem(stanzas, output) if expressive else synthesize(raw_text, output)
+                if expressive:
+                    audio = synthesize_poem(stanzas, output, rate, pitch)
+                else:
+                    audio = synthesize(raw_text, output, ("-r", str(rate), "-t", str(pitch)))
         except (OSError, ValueError, EOFError, wave.Error, subprocess.SubprocessError):
             self.message(502, "RHVoice no pudo generar el audio para este texto.")
             return

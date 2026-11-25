@@ -4,6 +4,8 @@ Pega un texto en ruso y pulsa **Leer texto**. El original queda visible debajo d
 
 **Leer el poema** abre y reproduce «Мы пьём из чаши бытия» con tres estilos de lectura. Aleksandr HQ ajusta la velocidad, la altura de la voz y el volumen para pasar de la nostalgia a la reflexión y cerrar con más intensidad.
 
+Los controles **Velocidad** y **Tono** se aplican al iniciar una lectura, incluso al repetir una palabra o selección. En el poema, se combinan con los ajustes de cada estrofa. Usa comas y puntos para marcar pausas y signos de interrogación para indicar preguntas.
+
 ## Ejecutar con Docker
 
 Desde la raíz del repositorio:
