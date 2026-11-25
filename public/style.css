@@ -24,7 +24,7 @@ textarea {
   color: inherit;
   font: inherit;
 }
-.actions { display: flex; gap: .5rem; margin-top: .75rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
 button {
   padding: .5rem .75rem;
   border: 1px solid #828c9b;

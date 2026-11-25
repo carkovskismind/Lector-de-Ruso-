@@ -2,6 +2,8 @@
 
 Pega un texto en ruso y pulsa **Leer texto**. El original queda visible debajo del editor. Haz clic en una palabra para repetirla, o selecciona un fragmento y pulsa **Leer selección**. Puedes recorrer las palabras con las flechas del teclado y reproducir la que tiene el foco con Intro o Espacio.
 
+**Leer el poema** abre y reproduce «Мы пьём из чаши бытия» con tres estilos de lectura. Aleksandr HQ ajusta la velocidad, la altura de la voz y el volumen para pasar de la nostalgia a la reflexión y cerrar con más intensidad.
+
 ## Ejecutar con Docker
 
 Desde la raíz del repositorio:

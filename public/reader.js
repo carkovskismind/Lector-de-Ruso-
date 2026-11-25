@@ -4,8 +4,24 @@ const stop = document.querySelector("#stop");
 const status = document.querySelector("#status");
 const reading = document.querySelector("#reading");
 const passage = document.querySelector("#passage");
+const poem = document.querySelector("#poem");
 const repeat = document.querySelector("#repeat");
 const segmenter = new Intl.Segmenter("ru", { granularity: "word" });
+
+const poemText = `Мы пьём из чаши бытия
+    С закрытыми очами,
+Златые омочив края
+    Своими же слезами.
+
+Когда же перед смертью с глаз
+    Завязка упадает,
+И всё, что обольщало нас,
+    С завязкой исчезает —
+
+Тогда мы видим, что пуста
+    Была златая чаша,
+Что в ней напиток был — мечта,
+    И что она — не наша!`;
 
 let selectedText = "";
 let playback;
@@ -24,7 +40,7 @@ function stopPlayback(message = "") {
   status.textContent = message;
 }
 
-async function speak(text, word) {
+async function speak(text, { word, endpoint = "/api/speech" } = {}) {
   stopPlayback();
   const audio = new Audio();
   const request = new AbortController();
@@ -46,7 +62,7 @@ async function speak(text, word) {
   }
 
   try {
-    const response = await fetch("/api/speech", {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "text/plain; charset=utf-8" },
       body: text,
@@ -97,9 +113,14 @@ form.addEventListener("submit", (event) => {
   speak(text);
 });
 
+poem.addEventListener("click", () => {
+  showPassage(poemText);
+  speak(poemText, { endpoint: "/api/poem" });
+});
+
 passage.addEventListener("click", (event) => {
   const word = event.target.closest(".word");
-  if (word && window.getSelection().isCollapsed) speak(word.textContent, word);
+  if (word && window.getSelection().isCollapsed) speak(word.textContent, { word });
 });
 
 passage.addEventListener("keydown", (event) => {
@@ -107,7 +128,7 @@ passage.addEventListener("keydown", (event) => {
   if (!word) return;
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
-    speak(word.textContent, word);
+    speak(word.textContent, { word });
   }
   if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
     const next = event.key === "ArrowLeft" ? word.previousElementSibling : word.nextElementSibling;
